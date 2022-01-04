@@ -87,17 +87,28 @@ class Meta:
 	'''
 
 	class Image:
-		def __init__(self, url, width, height) -> None:
-			self.url, self.width, self.height = url, width, height
+		DEFAULT_WIDTH = 1200
+		DEFAULT_HEIGHT = 800
 
-	def __init__(self, title, description, image_url, image_width=1200, image_height=800, keywords=None):
+		def __init__(self, url, width=None, height=None) -> None:
+			self.url, self.width, self.height = url, width, height
+			if self.width == None: self.width = self.DEFAULT_WIDTH
+			if self.height == None: self.height = self.DEFAULT_HEIGHT
+
+
+	def __init__(self, title, description, image=None, image_url=None, image_width=None, image_height=None, keywords=None):
 		self.title = title
 		self.description = description
 		self.keywords = keywords
 		
+		if image == None and image_url == None:
+			raise ValueError('Both image or image_url cannot be empty.')
 
 		request_service = RequestService()
-		self.image_url = request_service.get_full_url(path=image_url)
-		self.image_width = image_width
-		self.image_height = image_height
-		self.image = Meta.Image(url=image_url, width=image_width, height=image_height)
+		if image != None:
+			self.image = image
+			self.image_url = request_service.get_full_url(path=self.image.url)
+		else:
+			self.image_url = request_service.get_full_url(path=image_url)
+			self.image = Meta.Image(url=image_url, width=image_width, height=image_height)
+
