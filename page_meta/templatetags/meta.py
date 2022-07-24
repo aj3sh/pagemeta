@@ -9,7 +9,7 @@ register = template.Library()
 def get_meta(context_meta=None):
     # meta from page url
     # HIGH PRIORITY
-    meta = MetaForPage.get_meta_from_url()
+    meta = MetaForPage.get_meta_from_current_url()
     if meta:
         return meta
 
