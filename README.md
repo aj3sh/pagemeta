@@ -1,13 +1,20 @@
 # PAGE META
+Page meta is a Django package allowing to add meta tags and descriptions dynamically. Meta tags are stored in models and can be controlled by Django admin (or any CMS).
 
 ## Installation
 
 In settings file
-```
+```python
 INSTALLED_APPS = [
     ...
     'page_meta',
     ...
+]
+
+MIDDLEWARE = [
+	...
+	'page_meta.middleware.MetaRequestMiddleware', # for binding meta into the request
+	...
 ]
 ```
 
@@ -15,7 +22,7 @@ INSTALLED_APPS = [
 - Run the server. 
 - Go to the Admin > Page_meta > Meta for pages.
 - Create Meta for pages, use relative url in `page_url`. Also supports relative url but might varies in different domains.
-- To create default tags for the whole system, use `page_url` as `default`
+- To create default tags for the whole system, use `page_url` as `default` or `DEFAULT` (case insensitive)
 
 
 ## Usage
@@ -30,7 +37,9 @@ In your template
 
 
 ### Set a Custom Meta tags
-If you want to set a custom meta tags for specific pages or conditions, you can send a context variable named `meta` as an instance of `Meta`
+If you want to set a custom meta tags for specific pages or conditions, you can send a context variable named `meta` as an instance of `Meta`.
+
+_Note: context variable can be overridden if MetaForPage for that url exists_
 
 Example code:
 ```python

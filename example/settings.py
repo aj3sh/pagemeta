@@ -39,7 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'example',
-    'page_meta',
+    'page_meta', # added for page_meta
 ]
 
 MIDDLEWARE = [
@@ -50,6 +50,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'page_meta.middleware.MetaRequestMiddleware', # added for page_meta
 ]
 
 ROOT_URLCONF = 'example.urls'

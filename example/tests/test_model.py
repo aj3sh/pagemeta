@@ -1,7 +1,8 @@
 from ast import keyword
 from django.test import TestCase
 
-from page_meta.models import TESTING_PATH, MetaForPage, Meta
+from page_meta.requests import TESTING_PATH
+from page_meta.models import MetaForPage, Meta
 
 class TestMetaForPage(TestCase):
 
