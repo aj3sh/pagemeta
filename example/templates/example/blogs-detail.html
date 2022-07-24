@@ -1,0 +1,11 @@
+{% extends 'example/base.html' %}
+
+{% block title %}{{ object }}{% endblock %}
+
+{% block body %}
+<h1>{{ object }}</h1>
+<p><img src="{{ object.photo.url }}" style="width: 100%; max-width: 500px;"></p>
+<p>{{ object.description }}</p>
+<a href="{% url 'homepage' %}">Back to Blog List</a><br>
+<a href="{% url 'homepage' %}">Home</a>
+{% endblock %}

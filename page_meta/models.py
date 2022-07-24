@@ -1,7 +1,10 @@
+import sys
 from django.db import models
 
 # Create your models here.
 
+TESTING = sys.argv[1:2] == ['test']
+TESTING_PATH = '/test'
 
 class RequestService:
 
@@ -13,12 +16,18 @@ class RequestService:
 
 	@property
 	def root_url(self):
+		if TESTING:
+			# for testing
+			return 'http://localhost:8000'
 		if not hasattr(self, '__root_url'):
 			self.__root_url = '{}://{}'.format(self.request.scheme, self.request.get_host())
 		return self.__root_url
 
 	@property
 	def path(self):
+		if TESTING:
+			# for testing
+			return TESTING_PATH
 		return self.request.path
 
 	@property
@@ -26,7 +35,6 @@ class RequestService:
 		return self.get_full_url(self.path)
 
 	def get_full_url(self, path):
-		
 		if 'http://' in path or 'https://' in path:
 			return path
 		elif not path.startswith('/'):
@@ -68,17 +76,14 @@ class MetaForPage(models.Model):
 		if cls.objects.filter(page_url__iexact='default').exists():
 			return cls.objects.filter(page_url__iexact='default').first()
 		return None
-
+	
 	@classmethod
-	def get_meta_from_url(cls):
+	def get_meta_from_current_url(cls):
 		request_service = RequestService()
 		qs = cls._default_manager.filter(
 			models.Q(page_url=request_service.path) |
 			models.Q(page_url=request_service.full_path)
 		)
-		if not qs.exists():
-			return None
-
 		return qs.first()
 
 class Meta:

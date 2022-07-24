@@ -1,0 +1,8 @@
+{% extends 'example/base.html' %}
+
+{% block title %}Home Page{% endblock %}
+
+{% block body %}
+<h1>Welcome to Home Page</h1>
+<a href="{% url 'blogs-list' %}">Blog List</a>
+{% endblock %}
