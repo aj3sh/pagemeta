@@ -1,21 +1,25 @@
 import sys
 from threading import current_thread
+
+from django.http import HttpRequest
+
 from .middleware import _requests
 
 # for testing
 TESTING = sys.argv[1:2] == ['test']
-TESTING_PATH = '/test'
 
 def get_request():
     '''
     returns request saved using current thread as a key
     '''
+    if TESTING:
+        return get_fake_request()
+
     current_thread_ident = current_thread().ident
     if current_thread_ident not in _requests:
         raise ImportError('Unable to retrieve request. Make sure "page_meta.middleware.MetaRequestMiddleware" is '
             'added in your settings and working properly.')
     return _requests.get(current_thread_ident, None)
-
 
 class RequestService:
 
@@ -27,18 +31,12 @@ class RequestService:
 
 	@property
 	def root_url(self):
-		if TESTING:
-			# for testing
-			return 'http://localhost:8000'
 		if not hasattr(self, '__root_url'):
 			self.__root_url = '{}://{}'.format(self.request.scheme, self.request.get_host())
 		return self.__root_url
 
 	@property
 	def path(self):
-		if TESTING:
-			# for testing
-			return TESTING_PATH
 		return self.request.path
 
 	@property
@@ -51,3 +49,12 @@ class RequestService:
 		elif not path.startswith('/'):
 			path = '/'+path
 		return '{}{}'.format(self.root_url, path)
+
+
+def get_fake_request():
+    '''returns fake request (used for testing purpose'''
+    request = HttpRequest()
+    request.META['SERVER_NAME'] = 'localhost'
+    request.META['SERVER_PORT'] = '8000'
+    request.path = '/test'
+    return request

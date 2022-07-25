@@ -25,7 +25,7 @@ SECRET_KEY = '53rsaxi@&i#c+_jbr*e--a(*p28q7ps@fxah^hdt&4$77(r8p)'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*'] # Note: wildcard is for example/testing purpose
 
 
 # Application definition

@@ -1,6 +1,7 @@
 from django.db import models
+from django.template.loader import render_to_string
 
-from .requests import RequestService
+from .requests import RequestService, get_request
 
 class MetaForPage(models.Model):
 	page_url = models.CharField('Page Url', max_length=255, help_text='Enter the relative url eg. /contact-us. To use as the default enter "DEFAULT".')
@@ -15,11 +16,6 @@ class MetaForPage(models.Model):
 	def __str__(self):
 		return self.title
 
-	@property
-	def image_url(self):
-		request_service = RequestService()
-		return request_service.get_full_url(path=self.image.url)
-	
 	@classmethod
 	def get_default_meta(cls):
 		if cls.objects.filter(page_url__iexact='default').exists():
@@ -38,6 +34,7 @@ class MetaForPage(models.Model):
 class Meta:
 	'''
 	Plain model for storing title description image keywords
+	Also used for rendering
 	'''
 
 	class Image:
@@ -66,3 +63,24 @@ class Meta:
 			self.image_url = request_service.get_full_url(path=image_url)
 			self.image = Meta.Image(url=image_url, width=image_width, height=image_height)
 
+	def __str__(self):
+		return self.render()
+
+	def render(self):
+		return render_to_string(template_name='page_meta/meta.html', context={
+			'meta': self,
+			'request': get_request(),
+		})
+
+	@staticmethod
+	def from_meta_for_page(obj):
+		if obj == None:
+			return None
+			
+		return Meta(
+			title=obj.title,
+			description=obj.description,
+			image=obj.image,
+			keywords=obj.keywords,
+		)
+	
