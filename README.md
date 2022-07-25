@@ -12,9 +12,9 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
-	...
-	'page_meta.middleware.MetaRequestMiddleware', # for binding meta into the request
-	...
+    ...
+    'page_meta.middleware.MetaRequestMiddleware', # for binding meta into the request
+    ...
 ]
 ```
 
@@ -32,9 +32,9 @@ MIDDLEWARE = [
 In your template
 ```DjangoHTML
 <head>
-	...
-	{{ request.meta }}
-	...
+    ...
+    {{ request.meta }}
+    ...
 </head>
 ```
 
@@ -60,18 +60,18 @@ Example code:
 ```python
 
 class MyView(TemplateView):
-	...
+    ...
 
-	def get_context_data(self, **kwargs):
+    def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-		...
-		self.request.meta = Meta(
-			title='custom test',
-			description='custom description',
-			image_url='http://image_url_dot_com',
-		)
         ...
-		return context
+        self.request.meta = Meta(
+            title='custom test',
+            description='custom description',
+            image_url='http://image_url_dot_com',
+        )
+        ...
+        return context
     ...
 
 ```
