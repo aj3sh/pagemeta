@@ -1,57 +1,7 @@
-import sys
 from django.db import models
+from django.template.loader import render_to_string
 
-# Create your models here.
-
-TESTING = sys.argv[1:2] == ['test']
-TESTING_PATH = '/test'
-
-class RequestService:
-
-	@property
-	def request(self):
-		if not hasattr(self, '__request'):
-			self.__request = self.__class__._get_request()
-		return self.__request
-
-	@property
-	def root_url(self):
-		if TESTING:
-			# for testing
-			return 'http://localhost:8000'
-		if not hasattr(self, '__root_url'):
-			self.__root_url = '{}://{}'.format(self.request.scheme, self.request.get_host())
-		return self.__root_url
-
-	@property
-	def path(self):
-		if TESTING:
-			# for testing
-			return TESTING_PATH
-		return self.request.path
-
-	@property
-	def full_path(self):
-		return self.get_full_url(self.path)
-
-	def get_full_url(self, path):
-		if 'http://' in path or 'https://' in path:
-			return path
-		elif not path.startswith('/'):
-			path = '/'+path
-		return '{}{}'.format(self.root_url, path)
-
-	@staticmethod
-	def _get_request():
-		import sys
-		f = sys._getframe()
-		while f:
-			request = f.f_locals.get("request")
-			if request:
-				return request
-			f = f.f_back
-		return None
-
+from .requests import RequestService, get_request
 
 class MetaForPage(models.Model):
 	page_url = models.CharField('Page Url', max_length=255, help_text='Enter the relative url eg. /contact-us. To use as the default enter "DEFAULT".')
@@ -66,11 +16,6 @@ class MetaForPage(models.Model):
 	def __str__(self):
 		return self.title
 
-	@property
-	def image_url(self):
-		request_service = RequestService()
-		return request_service.get_full_url(path=self.image.url)
-	
 	@classmethod
 	def get_default_meta(cls):
 		if cls.objects.filter(page_url__iexact='default').exists():
@@ -89,6 +34,7 @@ class MetaForPage(models.Model):
 class Meta:
 	'''
 	Plain model for storing title description image keywords
+	Also used for rendering
 	'''
 
 	class Image:
@@ -117,3 +63,24 @@ class Meta:
 			self.image_url = request_service.get_full_url(path=image_url)
 			self.image = Meta.Image(url=image_url, width=image_width, height=image_height)
 
+	def __str__(self):
+		return self.render()
+
+	def render(self):
+		return render_to_string(template_name='page_meta/meta.html', context={
+			'meta': self,
+			'request': get_request(),
+		})
+
+	@staticmethod
+	def from_meta_for_page(obj):
+		if obj == None:
+			return None
+			
+		return Meta(
+			title=obj.title,
+			description=obj.description,
+			image=obj.image,
+			keywords=obj.keywords,
+		)
+	

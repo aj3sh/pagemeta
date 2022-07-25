@@ -1,6 +1,6 @@
 {% extends 'example/base.html' %}
 
-{% block title %}Blog List{% endblock %}
+{% block title %}{{ request.meta.title|default:'Blog List' }}{% endblock %}
 
 {% block body %}
 <h1>Blog List</h1>

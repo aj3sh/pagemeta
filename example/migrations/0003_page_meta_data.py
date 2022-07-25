@@ -19,7 +19,7 @@ def migrate_page_meta_data(apps, schema_editor):
         keywords='blog, website, news, blog and news, latest news, latest, blog',
     )
     MetaForPage.objects.create(
-        page_url='/blogs',
+        page_url='/blogs/',
         title='Blog list page',
         description='Blog list page. Get the latest news and blogs about the world.',
         image=copy_file_to_storage('example/static/images/blog.jpg'),

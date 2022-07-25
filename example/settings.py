@@ -25,7 +25,7 @@ SECRET_KEY = '53rsaxi@&i#c+_jbr*e--a(*p28q7ps@fxah^hdt&4$77(r8p)'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*'] # Note: wildcard is for example/testing purpose
 
 
 # Application definition
@@ -39,7 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'example',
-    'page_meta',
+    'page_meta', # added for page_meta
 ]
 
 MIDDLEWARE = [
@@ -50,6 +50,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'page_meta.middleware.MetaRequestMiddleware', # added for page_meta
 ]
 
 ROOT_URLCONF = 'example.urls'
