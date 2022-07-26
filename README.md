@@ -3,6 +3,10 @@ Page meta is a Django package allowing to add meta tags, og tags, images, and de
 
 ## Installation
 
+```bash
+pip install django-pagemeta
+```
+
 In settings file
 ```python
 INSTALLED_APPS = [
@@ -63,15 +67,13 @@ class MyView(TemplateView):
     ...
 
     def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
         ...
+        # adding custom meta
         self.request.meta = Meta(
             title='custom test',
             description='custom description',
             image_url='http://image_url_dot_com',
         )
         ...
-        return context
-    ...
 
 ```
