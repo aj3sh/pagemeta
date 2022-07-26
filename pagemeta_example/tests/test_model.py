@@ -1,8 +1,8 @@
 from ast import keyword
 from django.test import TestCase
 
-from page_meta.models import MetaForPage, Meta
-from page_meta.requests import get_fake_request
+from pagemeta.models import MetaForPage, Meta
+from pagemeta.requests import get_fake_request
 
 class TestMetaForPage(TestCase):
 
@@ -17,7 +17,7 @@ class TestMetaForPage(TestCase):
         self.assertNotEqual(meta.pk, None)
 
     def test_get_default_meta(self):
-        # default data is created by migration (example)
+        # default data is created by migration (pagemeta_example)
         default_meta = MetaForPage.get_default_meta()
         self.assertEqual(default_meta.page_url.lower(), 'default')
 

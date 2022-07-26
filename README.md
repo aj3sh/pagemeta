@@ -1,5 +1,5 @@
 # PAGE META
-Page meta is a Django package allowing to add meta tags and descriptions dynamically. Meta tags are stored in models and can be managed through Django admin (or any CMS).
+Page meta is a Django package allowing to add meta tags, og tags, images, and descriptions dynamically. Meta tags are stored in models and can be managed through Django admin (or any CMS).
 
 ## Installation
 
@@ -7,13 +7,13 @@ In settings file
 ```python
 INSTALLED_APPS = [
     ...
-    'page_meta',
+    'pagemeta',
     ...
 ]
 
 MIDDLEWARE = [
     ...
-    'page_meta.middleware.MetaRequestMiddleware', # for binding meta into the request
+    'pagemeta.middleware.MetaRequestMiddleware', # for binding meta into the request
     ...
 ]
 ```

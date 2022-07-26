@@ -67,7 +67,7 @@ class Meta:
 		return self.render()
 
 	def render(self):
-		return render_to_string(template_name='page_meta/meta.html', context={
+		return render_to_string(template_name='pagemeta/meta.html', context={
 			'meta': self,
 			'request': get_request(),
 		})

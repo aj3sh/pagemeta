@@ -17,7 +17,7 @@ def get_request():
 
     current_thread_ident = current_thread().ident
     if current_thread_ident not in _requests:
-        raise ImportError('Unable to retrieve request. Make sure "page_meta.middleware.MetaRequestMiddleware" is '
+        raise ImportError('Unable to retrieve request. Make sure "pagemeta.middleware.MetaRequestMiddleware" is '
             'added in your settings and working properly.')
     return _requests.get(current_thread_ident, None)
 

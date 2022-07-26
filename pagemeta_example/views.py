@@ -1,19 +1,19 @@
 from django.views.generic import TemplateView, ListView, DetailView
 
-from page_meta.models import Meta
+from pagemeta.models import Meta
 
 from .models import Blog
 
 class HomePageView(TemplateView):
-    template_name = 'example/home.html'
+    template_name = 'pagemeta_example/home.html'
 
 class BlogListView(ListView):
     model = Blog
-    template_name = 'example/blogs.html'
+    template_name = 'pagemeta_example/blogs.html'
 
 class BlogDetailView(DetailView):
     model = Blog
-    template_name = 'example/blogs-detail.html'
+    template_name = 'pagemeta_example/blogs-detail.html'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
