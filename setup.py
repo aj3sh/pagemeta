@@ -4,7 +4,7 @@ setup file for pagemeta package
 - Publish version
 $ python setup.py publish
 
-- Alternative
+- Alternative (for building wheel)
 pip install build
 python -m build
 """
