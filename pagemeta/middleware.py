@@ -2,7 +2,7 @@ from threading import current_thread
 from django.utils.deprecation import MiddlewareMixin
 from django.http import HttpRequest
 
-from page_meta.utils import get_meta, set_meta
+from pagemeta.utils import get_meta, set_meta
 
 _requests = {}
 

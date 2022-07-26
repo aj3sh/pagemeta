@@ -3,8 +3,8 @@ from django.utils.module_loading import import_string
 
 def get_meta(request):
     # importing models
-    Meta = import_string('page_meta.models.Meta')
-    MetaForPage = apps.get_model('page_meta.MetaForPage')
+    Meta = import_string('pagemeta.models.Meta')
+    MetaForPage = apps.get_model('pagemeta.MetaForPage')
     
     # getting meta tag from url
     meta = MetaForPage.get_meta_from_current_url()

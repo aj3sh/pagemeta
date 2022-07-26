@@ -1,4 +1,8 @@
+django_pagemeta.egg-info/
 __pycache__/
+.eggs
+build
+dist
 db.sqlite3
 media
 .DS_Store
