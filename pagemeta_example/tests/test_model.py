@@ -1,4 +1,3 @@
-from ast import keyword
 from django.test import TestCase
 
 from pagemeta.models import MetaForPage, Meta
