@@ -1,9 +1,38 @@
+from unittest.mock import patch
+
+from django.http import HttpRequest
 from django.test import TestCase
 
 from pagemeta.models import MetaForPage, Meta
-from pagemeta.requests import get_fake_request
 
-class TestMetaForPage(TestCase):
+def get_fake_request():
+    '''returns fake request (used for testing purpose only)'''
+    request = HttpRequest()
+    request.META['SERVER_NAME'] = 'localhost'
+    request.META['SERVER_PORT'] = '8000'
+    request.path = '/test'
+    return request
+
+class BaseTestCase(TestCase):
+    def setUp(self):
+        super().setUp()
+        
+        # mocking pagemeta.models.get_request with get_fake_request
+        self.request_patcher = patch('pagemeta.models.get_request')
+        self.mock_get_request = self.request_patcher.start()
+        self.mock_get_request.return_value = get_fake_request()
+
+        # mocking pagemeta.requests.get_request with get_fake_request
+        self.request_patcher2 = patch('pagemeta.requests.get_request')
+        self.mock_get_request2 = self.request_patcher2.start()
+        self.mock_get_request2.return_value = get_fake_request()
+
+    def tearDown(self):
+        self.request_patcher.stop()
+        self.request_patcher2.stop()
+        super().tearDown()
+
+class TestMetaForPage(BaseTestCase):
 
     def test_creation(self):
         meta = MetaForPage.objects.create(
@@ -42,7 +71,7 @@ class TestMetaForPage(TestCase):
         pass
 
 
-class TestMeta(TestCase):
+class TestMeta(BaseTestCase):
 
     def test_initialization(self):
         _ = Meta(
@@ -117,12 +146,13 @@ class TestMeta(TestCase):
         self.assertEqual(meta.image_url, 'http://localhost:8000/media/blog.jpg')
 
 
-class TestMetaModelRender(TestCase):
+class TestMetaModelRender(BaseTestCase):
     '''
     tests if the meta model renders correctly or not
     '''
     
     def setUp(self):
+        super().setUp()
         self.meta = Meta(
             title='test title',
             description='test description',
