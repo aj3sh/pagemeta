@@ -1,5 +1,8 @@
 # CHANGELOG
 
+# master
+- Update test cases (mocking request)
+
 ## v1.0.1 - (July 27, 2022)
 - Update readme file with pip install
 - Removed cached example app (only on build)
