@@ -37,7 +37,7 @@ setuptools.setup(
 	long_description=long_description,
 	long_description_content_type="text/markdown",
 	keywords=['django meta', 'django page meta', 'meta tags', 'og tags', 'open tags', 'twitter card', 'seo', 'seo tags', 'keywords', 'keywords management'],
-	url="https://github.com/aj3sh/page-meta",
+	url="https://github.com/aj3sh/pagemeta",
 	packages=setuptools.find_packages(),
 	install_requires=[
 	],
