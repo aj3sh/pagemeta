@@ -30,7 +30,7 @@ if sys.argv[-1] == 'publish':
 
 setuptools.setup(
 	name="django-pagemeta",
-	version="1.0.1",
+	version="1.0.2",
 	author="Ajesh Sen Thapa",
 	author_email="aj3sshh@gmail.com",
 	description="A simple django package for managing meta tags, og tags, images, and descriptions dynamically.",
@@ -39,6 +39,9 @@ setuptools.setup(
 	keywords=['django meta', 'django page meta', 'meta tags', 'og tags', 'open tags', 'twitter card', 'seo', 'seo tags', 'keywords', 'keywords management'],
 	url="https://github.com/aj3sh/pagemeta",
 	packages=setuptools.find_packages(),
+	package_data={
+		'pagemeta': ['templates/pagemeta/*.html'],
+	},
 	install_requires=[
 	],
 	classifiers=[
