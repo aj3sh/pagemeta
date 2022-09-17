@@ -42,16 +42,23 @@ In your template
 </head>
 ```
 
-Page titles are not rendered through request.meta. To render page title see the below example
+Page titles are not rendered through `request.meta`. To render page title see the below example.
 ```DjangoHTML
 ...
-<title>{{ request.meta.title|default:'Default title' }}</title>
+<title>{{ request.meta.title }}</title>
+...
+```
+
+For conditional titles `request.meta_exact` will be good. `request.meta_exact` contains the exact meta tags for the url or `None`. Whereas `request.meta` contains default value if no match found.
+```DjangoHTML
+...
+<title>{{ request.meta_exact.title|default:'Default title' }}</title>
 ...
 ```
 OR
 ```DjangoHTML
 ...
-<title>{% if request.meta.title %}{{ request.meta.title }}{% else %}Title for {{ article }}{% endif %}</title>
+<title>{% if request.meta_exact %}{{ request.meta_exact.title }}{% else %}Title for {{ article }}{% endif %}</title>
 ...
 ```
 
@@ -76,4 +83,17 @@ class MyView(TemplateView):
         )
         ...
 
+```
+
+## Contribution
+
+### Install requirements
+Create your virtualenv first.
+```bash
+pip install -r requirements.txt
+```
+
+### Running test cases
+```
+python manage.py test
 ```

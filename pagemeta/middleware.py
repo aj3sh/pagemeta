@@ -2,7 +2,7 @@ from threading import current_thread
 from django.utils.deprecation import MiddlewareMixin
 from django.http import HttpRequest
 
-from pagemeta.utils import get_meta, set_meta
+from pagemeta.utils import get_meta, get_meta_exact, set_meta
 
 _requests = {}
 
@@ -27,3 +27,4 @@ class MetaRequestMiddleware(MiddlewareMixin):
 
 # binding meta property in request
 HttpRequest.meta = property(get_meta, set_meta)
+HttpRequest.meta_exact = property(get_meta_exact)
