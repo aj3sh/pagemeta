@@ -1,12 +1,12 @@
 {% extends 'pagemeta_example/base.html' %}
 
-{% block title %}{{ request.meta.title|default:'Blog List' }}{% endblock %}
+{% block title %}{{ request.meta_exact.title|default:'Blog List' }}{% endblock %}
 
 {% block body %}
 <h1>Blog List</h1>
 <ul>
     {% for blog in object_list %}
-    <li><a href="{% url 'blogs-detail' blog.pk %}">{{ blog }}</li>
+    <li><a href="{% url 'blogs-detail' blog.pk %}">{{ blog }}</a></li>
     {% endfor %}
 </ul>
 <a href="{% url 'homepage' %}">Back to Home</a>

@@ -44,14 +44,14 @@ class TestMetaForPage(BaseTestCase):
         )
         self.assertNotEqual(meta.pk, None)
 
-    def test_get_default_meta(self):
+    def test_get_default(self):
         # default data is created by migration (pagemeta_example)
-        default_meta = MetaForPage.get_default_meta()
+        default_meta = MetaForPage.get_default()
         self.assertEqual(default_meta.page_url.lower(), 'default')
 
     def test_get_meta_from_url(self):
         # checking non existing meta
-        current_meta = MetaForPage.get_meta_from_current_url()
+        current_meta = MetaForPage.get_from_current_url()
         self.assertEqual(current_meta, None)
 
         # creating meta for current url
@@ -63,7 +63,7 @@ class TestMetaForPage(BaseTestCase):
             description='test description',
             keywords='test,keywords',
         )
-        current_meta = MetaForPage.get_meta_from_current_url()
+        current_meta = MetaForPage.get_from_current_url()
         self.assertEqual(current_meta.page_url.lower(), request.path.lower())
 
     def test_double_data_creation(self):
@@ -145,6 +145,12 @@ class TestMeta(BaseTestCase):
         self.assertEqual(meta.description, meta_for_page.description)
         self.assertEqual(meta.image_url, 'http://localhost:8000/media/blog.jpg')
 
+    def test_meta_default(self):
+        self.assertEqual(Meta.get_default().title, MetaForPage.get_default().title)
+
+    def test_none_meta(self):
+        self.assertEqual(str(Meta.none()), '')
+        self.assertEqual(bool(Meta.none()), False)
 
 class TestMetaModelRender(BaseTestCase):
     '''
