@@ -7,11 +7,16 @@ class MetaForPage(models.Model):
 	page_url = models.CharField('Page Url', max_length=255, help_text='Enter the relative url eg. /contact-us. To use as the default enter "DEFAULT".')
 	title = models.CharField('Title', max_length=255)
 	description = models.CharField('Description', max_length=255)
-	image = models.ImageField('Image', upload_to='page-meta/')
+	image = models.ImageField('Image', upload_to='page-meta/', 
+							  height_field='image_height', width_field='image_width')
+	image_height=models.PositiveIntegerField(blank=True)
+	image_width=models.PositiveIntegerField(blank=True)
 	keywords = models.CharField('Keywords', max_length=255, null=True, blank=True)
 
 	class Meta:
 		ordering = ('-id',)
+		verbose_name = "Meta for Page"
+		verbose_name_plural = "Meta for Pages"
 
 	def __str__(self):
 		return self.title
