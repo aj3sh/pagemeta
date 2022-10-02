@@ -1,5 +1,9 @@
 # CHANGELOG
 
+# v1.2.0
+- Cached Meta image width and height
+- Admin list and form update
+
 # v1.1.0
 - Added `request.meta_exact`.
 - Updated MetaForPages upload directory.

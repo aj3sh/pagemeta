@@ -30,7 +30,7 @@ if sys.argv[-1] == 'publish':
 
 setuptools.setup(
 	name="django-pagemeta",
-	version="1.1.0",
+	version="1.2.0",
 	author="Ajesh Sen Thapa",
 	author_email="aj3sshh@gmail.com",
 	description="A simple django package for managing meta tags, og tags, images, and descriptions dynamically.",
