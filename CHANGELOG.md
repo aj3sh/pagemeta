@@ -1,5 +1,8 @@
 # CHANGELOG
 
+# master
+- Updated README.md
+
 # v1.2.0
 - Cached Meta image width and height
 - Admin list and form update
