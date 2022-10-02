@@ -51,8 +51,7 @@ class Meta:
 			if self.width == None: self.width = self.DEFAULT_WIDTH
 			if self.height == None: self.height = self.DEFAULT_HEIGHT
 
-
-	def __init__(self, title, description, image=None, image_url=None, image_width=None, image_height=None, keywords=None):
+	def __init__(self, *, title, description, image=None, image_url=None, image_width=None, image_height=None, keywords=None):
 		self.title = title
 		self.description = description
 		self.keywords = keywords
@@ -63,10 +62,16 @@ class Meta:
 		request_service = RequestService()
 		if image != None:
 			self.image = image
-			self.image_url = request_service.get_full_url(path=self.image.url)
+			self.image_url = (request_service.get_full_url(path=image_url) 
+							 if image_url else 
+							 request_service.get_full_url(path=self.image.url))
+			self.image_width = image_width or image.width
+			self.image_height = image_height or image.height
 		else:
 			self.image_url = request_service.get_full_url(path=image_url)
 			self.image = Meta.Image(url=image_url, width=image_width, height=image_height)
+			self.image_width = image_width
+			self.image_height = image_height
 
 	def __str__(self):
 		return self.render()
@@ -90,6 +95,8 @@ class Meta:
 			title=obj.title,
 			description=obj.description,
 			image=obj.image,
+			image_width=obj.image_width,
+			image_height=obj.image_height,
 			keywords=obj.keywords,
 		)
 

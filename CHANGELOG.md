@@ -1,19 +1,22 @@
 # CHANGELOG
 
-# master
+## v1.2.1 - (October 2, 2022)
 - Updated README.md
+- Updated CHANGELOG.md
+- Bug fix for image height and width on meta rendering
+- Migrations created
 
-# v1.2.0
+## v1.2.0 - (October 2, 2022)
 - Cached Meta image width and height
 - Admin list and form update
 
-# v1.1.0
+## v1.1.0 - (September 17, 2022)
 - Added `request.meta_exact`.
 - Updated MetaForPages upload directory.
 - Added get_default on Meta.
 - Update README.md
 
-# v1.0.2 - (August 27, 2022)
+## v1.0.2 - (August 27, 2022)
 - Fixed template missing issue (Added template files in setup.py) 
 - Update test cases (mocking request)
 - Changed github url
