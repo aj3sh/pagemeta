@@ -24,7 +24,7 @@ MIDDLEWARE = [
 
 ## Creating a Meta tags
 - Run the server. 
-- Go to the **Django Admin** > **Page_meta** > **Meta for pages**.
+- Go to the **Django Admin** > **Pagemeta** > **Meta for Pages**.
 - Create Meta for pages, use full absolute url in `page_url`. Also supports relative url but might varies in different domains.
 - To create default tags for the whole system, use `page_url` as `default` or `DEFAULT` (case insensitive)
 
