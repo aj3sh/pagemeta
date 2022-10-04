@@ -21,6 +21,8 @@ class BlogDetailView(DetailView):
         self.request.meta = Meta(
             title=blog.title,
             description=blog.description[:125],
-            image=blog.photo,
+            image_url=blog.photo.url,
+            image_width=1250,
+            image_height=750,
         )
         return context

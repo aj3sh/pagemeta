@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## v1.2.2 - (October 4, 2022)
+- Loaded default image height width.
+- Test cases added.
+- Fixed migrations duplicate files.
+
 ## v1.2.1 - (October 2, 2022)
 - Updated README.md
 - Updated CHANGELOG.md

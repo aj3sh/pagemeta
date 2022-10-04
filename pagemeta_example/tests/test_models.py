@@ -3,7 +3,8 @@ from unittest.mock import patch
 from django.http import HttpRequest
 from django.test import TestCase
 
-from pagemeta.models import MetaForPage, Meta
+from pagemeta.models import DEFAULT_IMAGE_HEIGHT, DEFAULT_IMAGE_WIDTH, MetaForPage, Meta
+from pagemeta_example.models import Blog
 
 def get_fake_request():
     '''returns fake request (used for testing purpose only)'''
@@ -180,3 +181,64 @@ class TestMetaModelRender(BaseTestCase):
         self.assertTrue('<meta name="twitter:title" content="test title" />' in str(self.meta))
         self.assertTrue('<meta name="twitter:description" content="test description" />' in str(self.meta))
         self.assertTrue('<meta name="twitter:image" content="http://localhost:8000/media/blog.jpg" />' in str(self.meta))
+
+class TestMetaImage(BaseTestCase):
+    def test_meta_for_image_width_height(self):
+        request = get_fake_request()
+        meta_for_page = MetaForPage.objects.create(
+            page_url=request.path,
+            title='Test title',
+            image='blog.jpg',
+            description='test description',
+            keywords='test,keywords',
+        )
+        self.assertEqual(meta_for_page.image_width, 960)
+        self.assertEqual(meta_for_page.image_height, 440)
+
+    def test_default_image_width_height_on_image_url(self):
+        meta = Meta(
+            title='Test title',
+            description='Test description',
+            image_url='blog.jpg'
+        )
+        self.assertEqual(meta.image_width, DEFAULT_IMAGE_WIDTH)
+        self.assertEqual(meta.image_height, DEFAULT_IMAGE_HEIGHT)
+
+    def test_custom_image_width_height_on_image_url(self):
+        meta = Meta(
+            title='Test title',
+            description='Test description',
+            image_url='blog.jpg',
+            image_width=101,
+            image_height=102,
+        )
+        self.assertEqual(meta.image_width, 101)
+        self.assertEqual(meta.image_height, 102)
+
+    def test_image_width_height(self):
+        meta = Meta(
+            title='test title',
+            description='test description',
+            image=MetaForPage(image='blog.jpg').image, # adding model image (ImageField)
+        )
+        self.assertEqual(meta.image_width, 960)
+        self.assertEqual(meta.image_height, 440)
+
+    def test_custom_image_width_height(self):
+        meta = Meta(
+            title='test title',
+            description='test description',
+            image=MetaForPage(image='blog.jpg').image, # adding model image (ImageField)
+        )
+        self.assertEqual(meta.image_width, 960)
+        self.assertEqual(meta.image_height, 440)
+
+    def test_meta_image_width_height_render(self):
+        meta = Meta(
+            title='test title',
+            description='test description',
+            image=MetaForPage(image='blog.jpg').image, # adding model image (ImageField)
+        )
+        self.assertTrue('<meta property="og:image:width" content="960" />' in str(meta))
+        self.assertTrue('<meta property="og:image:height" content="440" />' in str(meta))
+        
