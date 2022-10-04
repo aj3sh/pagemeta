@@ -3,6 +3,9 @@ from django.template.loader import render_to_string
 
 from .requests import RequestService, get_request
 
+DEFAULT_IMAGE_WIDTH = 1200
+DEFAULT_IMAGE_HEIGHT = 800
+
 class MetaForPage(models.Model):
 	page_url = models.CharField('Page Url', max_length=255, help_text='Enter the relative url eg. /contact-us. To use as the default enter "DEFAULT".')
 	title = models.CharField('Title', max_length=255)
@@ -43,13 +46,10 @@ class Meta:
 	'''
 
 	class Image:
-		DEFAULT_WIDTH = 1200
-		DEFAULT_HEIGHT = 800
-
 		def __init__(self, url, width=None, height=None) -> None:
 			self.url, self.width, self.height = url, width, height
-			if self.width == None: self.width = self.DEFAULT_WIDTH
-			if self.height == None: self.height = self.DEFAULT_HEIGHT
+			self.width = self.width or DEFAULT_IMAGE_WIDTH
+			self.height = self.height or DEFAULT_IMAGE_HEIGHT
 
 	def __init__(self, *, title, description, image=None, image_url=None, image_width=None, image_height=None, keywords=None):
 		self.title = title
@@ -65,13 +65,13 @@ class Meta:
 			self.image_url = (request_service.get_full_url(path=image_url) 
 							 if image_url else 
 							 request_service.get_full_url(path=self.image.url))
-			self.image_width = image_width or image.width
-			self.image_height = image_height or image.height
+			self.image_width = image_width or image.width or DEFAULT_IMAGE_WIDTH
+			self.image_height = image_height or image.height or DEFAULT_IMAGE_HEIGHT
 		else:
 			self.image_url = request_service.get_full_url(path=image_url)
 			self.image = Meta.Image(url=image_url, width=image_width, height=image_height)
-			self.image_width = image_width
-			self.image_height = image_height
+			self.image_width = image_width or DEFAULT_IMAGE_WIDTH
+			self.image_height = image_height or DEFAULT_IMAGE_HEIGHT
 
 	def __str__(self):
 		return self.render()
