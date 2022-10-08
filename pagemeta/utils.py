@@ -6,11 +6,14 @@ def get_meta(request, return_default=True):
     # importing models
     Meta = import_string('pagemeta.models.Meta')
     MetaForPage = apps.get_model('pagemeta.MetaForPage')
-    
+
     # getting meta tag from url
-    meta = MetaForPage.get_from_current_url()
-    if meta:
-        return Meta.from_meta_for_page(meta)
+    try:
+        meta = MetaForPage.get_from_current_url()
+        if meta:
+            return Meta.from_meta_for_page(meta)
+    except ImportError: # Import Error raising from get_request
+        pass
 
     # checking if any custom meta tag exists
     if hasattr(request, '_custom_meta') and request._custom_meta:
@@ -25,8 +28,10 @@ def get_meta(request, return_default=True):
     # returning empty string
     return Meta.none()
 
+
 def get_meta_exact(request):
     return get_meta(request, return_default=False)
+
 
 def set_meta(request, meta):
     request._custom_meta = meta

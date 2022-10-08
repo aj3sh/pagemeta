@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## v1.2.3 - (October 4, 2022)
+- MetaForPage id as AutoField.
+- Error handling on no meta found.
+
 ## v1.2.2 - (October 4, 2022)
 - Loaded default image height width.
 - Test cases added.

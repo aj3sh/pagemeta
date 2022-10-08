@@ -7,6 +7,7 @@ DEFAULT_IMAGE_WIDTH = 1200
 DEFAULT_IMAGE_HEIGHT = 800
 
 class MetaForPage(models.Model):
+	id = models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')
 	page_url = models.CharField('Page Url', max_length=255, help_text='Enter the relative url eg. /contact-us. To use as the default enter "DEFAULT".')
 	title = models.CharField('Title', max_length=255)
 	description = models.CharField('Description', max_length=255)
