@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## v1.2.3 - (October 4, 2022)
+## v1.2.3 - (October 10, 2022)
 - MetaForPage id as AutoField.
 - Error handling on no meta found.
 
